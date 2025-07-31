@@ -12,13 +12,40 @@
 - **Edge Functions**: Use serverless logic for API integrations and itinerary processing.
 
 
-## 🛠️ Technologies
+## 🛠️ Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions)
-- **AI**: OpenAI API (ChatGPT)
-- **Maps**: Google Maps JavaScript API
-- **Weather**: OpenWeatherMap API
+| Layer        | Tech                                 |
+|--------------|--------------------------------------|
+| Frontend     | HTML, CSS, JavaScript                |
+| Backend      | Supabase Edge Functions (Deno)       |
+| AI Engine    | Google Gemini API                    |
+| Maps         | Google Maps JavaScript API           |
+| Weather      | OpenWeather API                      |
+| Auth/DB      | Supabase Auth + PostgreSQL           |
+| Hosting      | Supabase                             |
+
+---
+
+## 📦 External Dependencies (Equivalent to `requirements.txt`)
+
+> This project uses Deno (not Python), so a traditional `requirements.txt` isn't needed. These are the main runtime dependencies:
+
+```text
+# Supabase JS SDK (Deno-compatible)
+supabase-js: https://esm.sh/@supabase/supabase-js
+
+# Google Gemini API
+google-generativeai: https://esm.sh/@google/generative-ai
+
+# Google Maps JavaScript API
+google-maps: https://developers.google.com/maps/documentation/javascript
+
+# OpenWeather API
+openweather: https://openweathermap.org/api
+
+# Deno .env loader
+deno-dotenv: https://deno.land/std@0.204.0/dotenv/mod.ts
+```
 
 ## ⚙️ Installation
 
