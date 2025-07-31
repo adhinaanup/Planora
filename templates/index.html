@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planora - Home</title>
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg,#b5e2e8, #41b7c4,#074e52 );
+      background-attachment: fixed; 
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #f0f0f0;
+    }
+
+    .logo-icon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #c9c9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .logo-img{
+      width: 10px;
+      height: 10px;
+    }
+    .Planora{
+      color:#062c2e;
+    }
+    .subtext {
+      font-size: 0.8rem;
+      font-weight: normal;
+      opacity: 0.8;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-buttons button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    .nav-buttons .signin {
+      background: transparent;
+      border: 1px solid #062c2e;
+      color: #062c2e;
+    }
+
+    .nav-buttons .signup {
+      background: linear-gradient(to right, #062c2e, #062c2e);
+      color: #fff;
+    }
+
+    .nav-buttons a {
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s ease;
+      display: inline-block;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin: 60px 0 30px;
+      display: inline-block;
+    }
+
+    .hero {
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 900;
+    }
+
+    .hero .dream {
+      color: #ffffff;
+    }
+
+    .hero .plan {
+      background: linear-gradient(to right, #4da898, #0b74ad );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .explore {
+      background: linear-gradient(to right, #e78de5, #fdbb2d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtext-description {
+      margin-top: 30px;
+      max-width: 600px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #e0e0e0;
+    }
+
+    .features-section {
+      margin-top: 80px;
+      text-align: center;
+      padding: 0 20px;       
+      width: 100%; 
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .section-title .highlight {
+      background: linear-gradient(to right, #4da898, #0b74ad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtext {
+      font-size: 1.1rem;
+      color: #e0e0e0;
+      margin-bottom: 40px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.08);  /* 🔹 Slightly lighter */
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(3px);            /* 🔹 Less blur for smoother look */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="planora_logo.png" alt="Planora Logo" class="logo-img" />
+      <div class="Planora">
+        Planora
+        <div class="subtext">Powered by Intelligence</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <a href="login.html" class="signin">Sign In</a>
+      <a href="signup.html" class="signup">Sign Up</a>
+    </div>
+
+  </header>
+
+  <div class="badge">✨ ✈️ AI-Powered Travel Planning Revolution 🌍 ✨</div>
+
+  <div class="hero">
+    <h1><span class="dream">Dream.</span></h1>
+    <h1><span class="plan">Plan.</span></h1>
+    <h1><span class="explore">Explore.</span></h1>
+  </div>
+
+  <div class="subtext-description">
+    Transform your travel dreams into reality with our AI-powered planner. Get personalized itineraries that adapt to your style, budget, and wanderlust.
+  </div>
+
+  <section class="features-section">
+    <h2 class="section-title">Why Choose <span class="highlight">Planora</span>?</h2>
+    <p class="section-subtext">
+      Experience the future of travel planning with cutting-edge AI technology
+    </p>
+    
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>🤖 AI-Powered Magic</h3>
+        <p>Our advanced AI creates personalized itineraries that perfectly match your travel dreams and preferences ✨</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>🗺️ Interactive Maps</h3>
+        <p>Visualize your adventure with stunning interactive maps and optimized routes for seamless exploration 📍</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🗓️</div>
+        <h3>📅 Smart Scheduling</h3>
+        <p>Intelligent timing that considers opening hours, crowds, and optimal travel sequences 🎯</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🕒</div>
+        <h3>📚 Journey Memory</h3>
+        <p>Keep all your adventures organized and easily revisit your favorite travel memories 💭</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💖</div>
+        <h3>❤️ Personal Touch</h3>
+        <p>Save your preferences and let our AI learn your style for even better recommendations 🎨</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>🔍 Local Secrets</h3>
+        <p>Discover hidden gems, local customs, and insider tips that make your journey unforgettable 💎</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>
