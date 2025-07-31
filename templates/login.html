@@ -139,6 +139,8 @@
       </p>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+
   <script type="module">
   import { supabase } from '/supabase/supabaseClient.js';
 
@@ -177,11 +179,11 @@ if (error) {
 }
 
 const user = users[0];
+const isPasswordMatch = dcodeIO.bcrypt.compareSync(password, user.password);
 
-if (user.password === password) {
+if (isPasswordMatch) {
   localStorage.setItem("user_id", user.id);
   window.location.href = `dashboard.html?id=${user.id}`;
-
 } else {
   alert("Incorrect password.");
 }

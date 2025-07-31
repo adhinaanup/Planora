@@ -218,6 +218,7 @@
       <button class="submit-btn" onclick="submitSignup()">🚀Sign up</button>
     </div>
   </div>
+ <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 
  <script type="module">
   import { supabase } from "/supabase/supabaseClient.js";
@@ -242,6 +243,9 @@
     const name = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
+    const salt = dcodeIO.bcrypt.genSaltSync(10); 
+    const hashedPassword = dcodeIO.bcrypt.hashSync(password, salt);
+
     const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
       .map(el => el.innerText.trim());
 
@@ -269,7 +273,7 @@
           id: userId,
           name,
           email,
-          password, 
+          password:hashedPassword, 
           preferences: selectedInterests,
           budget: selectedBudget,
           created_at: new Date().toISOString()
