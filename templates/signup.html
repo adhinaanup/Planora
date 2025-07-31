@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup - Planora</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to top, #e6f7f5, #b5eae4);
+
+      padding: 40px 0;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .signup-box, .preferences-box {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 40px;
+      flex: 1 1 450px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 100px;
+      height: 100px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+
+    .subtext {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #374151;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #4b5563;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .option-card {
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 14px;
+      background: #f9fafb;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option-card:hover,
+    .option-card.selected {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .option-card span {
+      font-size: 20px;
+      display: block;
+    }
+
+    .option-card p {
+      margin-top: 4px;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #149d9f;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #11656d;
+    }
+    .signin-text {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #59676d;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .signin-text a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- SIGNUP FORM -->
+    <div class="signup-box">
+      <div class="logo">
+        <img src="planora_logo.png" alt="Planora Logo" />
+      </div>
+      <h2>Sign up</h2>
+      <p class="subtext">Join Planora and plan your perfect trip</p>
+
+      <form>
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Your name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" required />
+      </form>
+      <p class="signin-text">
+         Have an account? <a href="login.html">Sign in here</a>
+      </p>
+    </div>
+
+    <!-- PREFERENCES BOX -->
+    <div class="preferences-box">
+      <h2>Travel Preferences</h2>
+
+      <div class="section-title">💰 Your Travel Style</div>
+      <div class="options-grid" id="travel-styles">
+        <div class="option-card" onclick="selectCard(this, 'style')">
+          <span>🎒</span>
+          <p>Budget<br><small>$50-100/day</small></p>
+        </div>
+        <div class="option-card" onclick="selectCard(this, 'style')">
+          <span>✈️</span>
+          <p>Comfort<br><small>$100-200/day</small></p>
+        </div>
+        <div class="option-card" onclick="selectCard(this, 'style')">
+          <span>🥂</span>
+          <p>Luxury<br><small>$200+/day</small></p>
+        </div>
+      </div>
+
+      <div class="section-title">❤️ What do you enjoy?</div>
+      <div class="options-grid" id="interests">
+        <div class="option-card" onclick="toggleCard(this)"><span>🏛️</span><p>Culture</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🍽️</span><p>Food</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>📜</span><p>History</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🌲</span><p>Nature</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>⛰️</span><p>Adventure</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🎨</span><p>Art</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🎵</span><p>Music</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🛍️</span><p>Shopping</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🌙</span><p>Nightlife</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>📷</span><p>Photography</p></div>
+      </div>
+
+      <button class="submit-btn" onclick="submitSignup()">🚀 Generate My Adventure</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleCard(card) {
+      card.classList.toggle("selected");
+    }
+
+    function selectCard(card, groupName) {
+      document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+
+    function submitSignup() {
+      alert("Account created and preferences saved! (Backend not connected yet)");
+    }
+  </script>
+</body>
+</html>
