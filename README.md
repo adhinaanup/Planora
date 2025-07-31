@@ -25,4 +25,12 @@
 1. Clone the repository
 ```bash
 git clone https://github.com/adhinaanup/Planora.git
+```
+## 👥 Contributors
+
+- [Adhina Anup](https://github.com/adhinaanup)
+- [Sana A P](https://github.com/sana-a-p)
+- [Lamiya Yasmin A S](https://github.com/LAMIYA16)
+- [Nandana R](https://github.com/NANDANAR22)
+- [Nora B Varghese](https://github.com/this-is-nbv)
 
