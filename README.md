@@ -4,7 +4,7 @@
 
 ## 📋 Features
 
-- **AI Itinerary Generation**: Generates smart itineraries using OpenAI based on user inputs.
+- **AI Itinerary Generation**: Generates smart itineraries using Google Gemini API based on user inputs.
 - **Interactive Maps**: Visualizes destinations and places of interest using Google Maps.
 - **Live Weather**: Displays up-to-date weather forecasts via OpenWeather API.
 - **User Authentication**: Sign up and log in securely using Supabase Auth.
