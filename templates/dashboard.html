@@ -234,6 +234,8 @@
   </div>
 
   <script>
+    
+  import { supabase } from '/supabase/supabaseClient.js';
     function showPage(page) {
       const itinerary = document.getElementById('create-itinerary-page');
       const memory = document.getElementById('journey-memory-page');
@@ -246,11 +248,51 @@
         itinerary.classList.add('hidden');
       }
     }
+    
+  // Sign out
+  document.querySelector('.signout').addEventListener('click', function () {
+    localStorage.clear();
+    window.location.href = 'index.html';
+  });
 
-    // Populate data from storage (mock)
-    document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
-    document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
-    document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
+    async function loadUserDetails() {
+    const userId = localStorage.getItem("user_id");
+
+    if (!userId) {
+      window.location.href = "login.html"; 
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("name, preferences, budget")
+      .eq("id", userId)
+      .single();
+
+    if (error || !data) {
+      console.error("Failed to load user data:", error?.message || "Unknown error");
+      alert("Unable to fetch user profile.");
+      return;
+    }
+
+    // Set username
+    document.getElementById("username").textContent = data.name || "Traveler";
+
+    // Set preferences
+    document.getElementById("user-interests").textContent =
+      Array.isArray(data.preferences) ? data.preferences.join(", ") : "Not set";
+
+    // Set budget (if available)
+    document.getElementById("user-budget").textContent = data.budget ? data.budget : "Not set";
+
+    // Store in localStorage if needed
+    localStorage.setItem("username", data.name);
+    localStorage.setItem("interests", JSON.stringify(data.preferences));
+    localStorage.setItem("budget", data.budget);
+  }
+
+  loadUserDetails();
+
   </script>
 
 </body>

@@ -122,7 +122,7 @@
       </div>
    
       
-      <p class="subtext">Sign in to plan your amazing trips</p>
+      <p class="subtext">Sign in to continue planning your amazing trips</p>
 
       <form>
         <label for="email">Email</label>
@@ -145,7 +145,7 @@
   const form = document.querySelector("form");
 
   form.addEventListener("submit", async function (e) {
-    e.preventDefault(); 
+    e.preventDefault(); // prevent page reload
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
@@ -155,7 +155,7 @@
       return;
     }
 
-    // Fetch user from users table
+    // Fetch user from 'users' table
     const { data: users, error } = await supabase
   .from("users")
   .select("*")
@@ -184,6 +184,7 @@ if (user.password === password) {
 } else {
   alert("Incorrect password.");
 }
+
   });
 </script>
 </body>
