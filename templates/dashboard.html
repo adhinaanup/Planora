@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Planora - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      display: flex;
+      background-color: #e6f2f2;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #d7efef;
+      height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #3e748b;
+    }
+    .logo img {
+      height: 40px;
+    }
+    .sidebar h3 {
+      font-size: 18px;
+      color: #333;
+    }
+    .sidebar p {
+      color: #555;
+      font-size: 16px;
+      margin-left: 10px;
+      text-decoration: none;
+    }
+
+    .menu-item {
+      margin-top: 20px;
+      color: #333;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-item:hover {
+      background-color: #c3dfdf;
+      text-decoration: none;
+    }
+
+    .signout {
+      color: #3e748b;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    /* PAGE STYLES */
+    .create-itinerary, .journey-memory {
+      background-color: #d3e9e9;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 90%;
+      margin: 20px auto;
+    }
+
+    .create-itinerary h2 {
+      margin-bottom: 20px;
+      color: #142d4c;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    label span {
+      margin-right: 8px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #bfd8d8;
+      border: none;
+      border-radius: 6px;
+      color: #222;
+    }
+
+    input[type="text"]::placeholder {
+      color: #666;
+    }
+
+    .generate-btn {
+      margin-top: 30px;
+      background-color: #3e748b;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .trip-card {
+      background-color: #ffffff;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .trip-card h4 {
+      color: #2f5e6e;
+      margin-bottom: 5px;
+    }
+
+    .trip-card p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">
+        <img src="planora_logo.png" alt="Planora Logo"/>
+        PLANORA
+      </div>
+      <div>
+        <h3>Hi, <span id="username">Username!</span></h3>
+        <div class="menu-item">
+          <h3>Your Budget</h3>
+          <p id="user-budget">₹25,000</p>
+        </div>
+        <div class="menu-item">
+          <h3>Your Interests</h3>
+          <p id="user-interests">Mountains, Beaches, Food</p>
+        </div>
+        <div class="menu-item" onclick="showPage('itinerary')">
+          <h3>Create Itinerary</h3>
+        </div>
+        <div class="menu-item" onclick="showPage('memory')">
+          <h3>Journey Memory</h3>
+        </div>
+      </div>
+    </div>
+    <div class="signout">
+      <span>&#x21B6;</span> Sign Out
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Create Itinerary Page (Default) -->
+    <div id="create-itinerary-page" class="create-itinerary">
+      <h2>Plan Your Dream Trip!</h2>
+      <div class="form-group">
+        <label><span>📍</span>Where to?</label>
+        <input type="text" placeholder="Enter destination" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label><span>📅</span>From date</label>
+          <input type="date" placeholder="dd-mm-yyyy" />
+        </div>
+        <div class="form-group">
+          <label><span>📅</span>To date</label>
+          <input type="date" placeholder="dd-mm-yyyy" />
+        </div>
+      </div>
+      <button class="generate-btn">Generate My Itinerary</button>
+    </div>
+
+    <!-- Journey Memory Page -->
+    <div id="journey-memory-page" class="journey-memory hidden">
+      <h2>Your Journey Memory</h2>
+      <div class="trip-card">
+        <h4>Trip to Munnar</h4>
+        <p>Date: Jan 15 - Jan 18, 2024</p>
+        <p>Highlights: Tea plantations, Eravikulam Park, Eco Point</p>
+      </div>
+      <div class="trip-card">
+        <h4>Trip to Goa</h4>
+        <p>Date: March 5 - March 10, 2024</p>
+        <p>Highlights: Baga Beach, Fort Aguada, Night Markets</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(page) {
+      const itinerary = document.getElementById('create-itinerary-page');
+      const memory = document.getElementById('journey-memory-page');
+
+      if (page === 'itinerary') {
+        itinerary.classList.remove('hidden');
+        memory.classList.add('hidden');
+      } else if (page === 'memory') {
+        memory.classList.remove('hidden');
+        itinerary.classList.add('hidden');
+      }
+    }
+
+    // Populate data from storage (mock)
+    document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
+    document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
+    document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
+  </script>
+
+</body>
+</html>
