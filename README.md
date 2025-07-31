@@ -26,9 +26,7 @@
 
 ---
 
-## 📦 External Dependencies (Equivalent to `requirements.txt`)
-
-> This project uses Deno (not Python), so a traditional `requirements.txt` isn't needed. These are the main runtime dependencies:
+## 📦 External Dependencies 
 
 ```text
 # Supabase JS SDK (Deno-compatible)
