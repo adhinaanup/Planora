@@ -122,7 +122,7 @@
       </div>
    
       
-      <p class="subtext">Sign in to continue planning your amazing trips</p>
+      <p class="subtext">Sign in to plan your amazing trips</p>
 
       <form>
         <label for="email">Email</label>
@@ -139,5 +139,53 @@
       </p>
     </div>
   </div>
+  <script type="module">
+  import { supabase } from '/supabase/supabaseClient.js';
+
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault(); 
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    // Fetch user from users table
+    const { data: users, error } = await supabase
+  .from("users")
+  .select("*")
+  .ilike("email", email)  
+  .limit(1);
+
+console.log("Email entered:", email);
+console.log("Query result:", users);
+console.log("Query error:", error);
+
+if (error) {
+  alert("Error checking user: " + error.message);
+  return;
+}
+
+    if (!users || users.length === 0) {
+  alert("User not found.");
+  return;
+}
+
+const user = users[0];
+
+if (user.password === password) {
+  localStorage.setItem("user_id", user.id);
+  window.location.href = "dashboard.html";
+} else {
+  alert("Incorrect password.");
+}
+
+  });
+</script>
 </body>
 </html>

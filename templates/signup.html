@@ -130,7 +130,7 @@
       border-radius: 8px;
       margin-top: 30px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background-color 0.3s;
     }
 
     .submit-btn:hover {
@@ -189,15 +189,15 @@
       <div class="options-grid" id="travel-styles">
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🎒</span>
-          <p>Budget<br><small>$50-100/day</small></p>
+          <p>Budget<br><small>₹500-1000/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>✈</span>
-          <p>Comfort<br><small>$100-200/day</small></p>
+          <p>Comfort<br><small>₹2000-5000/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🥂</span>
-          <p>Luxury<br><small>$200+/day</small></p>
+          <p>Luxury<br><small>₹5000+/day</small></p>
         </div>
       </div>
 
@@ -218,100 +218,73 @@
       <button class="submit-btn" onclick="submitSignup()">🚀Sign up</button>
     </div>
   </div>
-<!--
-  <script>
-    function toggleCard(card) {
-      card.classList.toggle("selected");
-    }
 
-    function selectCard(card, groupName) {
-      document.querySelectorAll(#travel-styles .option-card).forEach(c => c.classList.remove('selected'));
+ <script type="module">
+  import { supabase } from "/supabase/supabaseClient.js";
+
+  let selectedBudget = '';
+
+  window.selectCard = function (card, groupName) {
+    if (groupName === 'style') {
+      document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
+
+      const text = card.querySelector('p');
+      selectedBudget = text ? text.innerText.split('\n')[0].trim() : '';
     }
+  };
 
-    function submitSignup() {
-      alert("Account created and preferences saved! (Backend not connected yet)");
-    }
-  </script>
--->
+  window.toggleCard = function (card) {
+    card.classList.toggle("selected");
+  };
 
-  <script type="module">
-    import { supabase } from "../supabase/supabaseClient.js";
+  window.submitSignup = async function () {
+    const name = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
+      .map(el => el.innerText.trim());
 
-    let selectedBudget = '';
-
-    window.selectCard = function (card, groupName) {
-      if (groupName === 'style') {
-        document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-
-        
-        const text = card.querySelector('p');
-        selectedBudget = text ? text.innerText.split('\n')[0].trim() : '';
-      }
-    };
-
-    window.toggleCard = function (card) {
-      card.classList.toggle("selected");
-    };
-
-    
-     window.submitSignup = async function () {
-  const name = document.getElementById("username").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p')).map(el => el.innerText.trim());
-
-  if (!name || !email || !password) {
-    alert("Please fill all the fields.");
-    return;
-  }
-
-  if (!selectedBudget) {
-    alert("Please select your travel style.");
-    return;
-  }
-
-  if (selectedInterests.length === 0) {
-    alert("Please select at least one interest.");
-    return;
-  }
-
-  try {
-    const { data: authData, error: signUpError } = await supabase.auth.signUp({ email, password });
-
-    if (signUpError) {
-      alert("Signup failed: " + signUpError.message);
+    if (!name || !email || !password) {
+      alert("Please fill all the fields.");
       return;
     }
 
-    const userId = authData.user.id;
+    if (!selectedBudget) {
+      alert("Please select your travel style.");
+      return;
+    }
 
-    const { error: insertError } = await supabase.from('users').insert([
-      {
-        id: userId,
-        name,
-        email,
-        password,
-        budget: selectedBudget,
-        preferences: selectedInterests,
-        created_at: new Date().toISOString(),
-      }
-    ]);
+    if (selectedInterests.length === 0) {
+      alert("Please select at least one interest.");
+      return;
+    }
+
+    const userId = crypto.randomUUID(); 
+
+    const { error: insertError } = await supabase
+      .from('users')
+      .insert([
+        {
+          id: userId,
+          name,
+          email,
+          password, 
+          preferences: selectedInterests,
+          budget: selectedBudget,
+          created_at: new Date().toISOString()
+        }
+      ]);
 
     if (insertError) {
       alert("Failed to save preferences: " + insertError.message);
       return;
     }
 
-    alert("Account created and preferences saved!");
-  } catch (err) {
-    console.error(err);
-    alert("An unexpected error occurred.");
-  }
-};
+    window.location.href = "dashboard.html";
+  };
+</script>
 
-  </script>
 
 
 
