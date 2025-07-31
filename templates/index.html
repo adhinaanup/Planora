@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planora - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
   <style>
-    
     * {
       margin: 0;
       padding: 0;
@@ -13,78 +14,62 @@
     }
 
     body {
-      min-height: 100vh; 
+      min-height: 100vh;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg,#b5e2e8, #41b7c4,#074e52 );
-      background-attachment: fixed; 
-      background-repeat: no-repeat;
-      background-size: cover;
-      color: white;
+      background-color: #f8f9fa; /* Off-white theme */
+      color: #0b7c83;            /* Blue-green for text */
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 100px 20px 20px;
       overflow-x: hidden;
     }
-    
 
     header {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 10px 40px;
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.4rem;
+      font-size: 20px;
       font-weight: bold;
-      color: #f0f0f0;
+      color: #0b7c83;
     }
 
-    .logo-icon {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #c9c9ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 18px;
+    .logo-img {
+      width: 60px;
+      height: auto;
+    }
+    .logo-text-img {
+      height: 38px; 
+      width: auto;
+      margin-top: 2px;
     }
 
-    .logo-img{
-      width: 100px;
-      height: 100px;
+    .logo-text {
+      font-family: 'Amberosa Sans 1', sans-serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: #0b7c83;
+      letter-spacing: 1px;
     }
-    
 
     .nav-buttons {
       display: flex;
       gap: 12px;
-    }
-
-    .nav-buttons button {
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s ease;
-    }
-
-    .nav-buttons .signin {
-      background: transparent;
-      border: 1px solid #062c2e;
-      color: #062c2e;
-    }
-
-    .nav-buttons .signup {
-      background: linear-gradient(to right, #062c2e, #062c2e);
-      color: #fff;
     }
 
     .nav-buttons a {
@@ -96,13 +81,24 @@
       display: inline-block;
     }
 
+    .nav-buttons .signin {
+      background: transparent;
+      border: 1px solid #366983;
+      color: #366983;
+    }
+
+    .nav-buttons .signup {
+      background: linear-gradient(to right, #366983, #0d9a9f);
+      color: #fff;
+    }
+
     .badge {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(11, 124, 131, 0.1);
       padding: 10px 20px;
       border-radius: 999px;
       font-size: 0.9rem;
       margin: 60px 0 30px;
-      display: inline-block;
+      color: #0b7c83;
     }
 
     .hero {
@@ -115,18 +111,20 @@
       font-weight: 900;
     }
 
-    .hero .dream {
-      color: #ffffff;
+   .hero .dream {
+      background: linear-gradient(to right, #4da898, #0b74ad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero .plan {
-      background: linear-gradient(to right, #4da898, #0b74ad );
+      background: linear-gradient(to right, #4da898, #0b74ad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero .explore {
-      background: linear-gradient(to right, #e78de5, #fdbb2d);
+      background: linear-gradient(to right, #4da898, #0b74ad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -136,14 +134,15 @@
       max-width: 600px;
       text-align: center;
       font-size: 1.1rem;
-      color: #e0e0e0;
+      color: #3e748b;
     }
 
     .features-section {
       margin-top: 80px;
+      margin-bottom: 60px; 
       text-align: center;
-      padding: 0 20px;       
-      width: 100%; 
+      padding: 0 20px;
+      width: 100%;
     }
 
     .section-title {
@@ -153,56 +152,94 @@
     }
 
     .section-title .highlight {
-      background: linear-gradient(to right, #4da898, #0b74ad);
+      background: linear-gradient(to right, #0b7c83, #0d9a9f);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .section-subtext {
       font-size: 1.1rem;
-      color: #e0e0e0;
+      color: #3e748b;
       margin-bottom: 40px;
     }
 
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      max-width: 1100px;
+      grid-template-columns: repeat(4, 1fr); /* fixed to 4 cards per row */
+      gap: 40px;
+      max-width: 1300px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
+
+    
     .feature-card {
-      background: rgba(255, 255, 255, 0.08);  /* 🔹 Slightly lighter */
+      background: #e6f4f5; /* Very light blue-green tint */
       border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(3px);            /* 🔹 Less blur for smoother look */
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 24px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(11, 124, 131, 0.1); 
+      color: #0b7c83;
     }
+
 
     .feature-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      background: #d9eff0;
     }
 
     .feature-icon {
       font-size: 2rem;
       margin-bottom: 10px;
-}
+    }
+
+    @media (max-width: 1100px) {
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+        .footer {
+      width: 100%;
+      background: #e6f4f5; /* same as feature-card */
+      padding: 20px 16px;  /* 🔽 reduced height */
+      text-align: center;
+      color: #0b7c83;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+      border-top: 1px solid rgba(11, 124, 131, 0.1);
+    }
+    .footer-content {
+      max-width: 100%;
+    }
+
+    .footer-logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #0b7c83;
+      margin-bottom: 10px;
+    }
 
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
-      <img src="planora_logo.png" alt="Planora Logo" class="logo-img" />
+      <img src="logo.png" alt="Planora Logo" class="logo-img"/>
+      <img src="planora.png" alt="Planora Text" class="logo-text-img" />
     </div>
     <div class="nav-buttons">
       <a href="login.html" class="signin">Sign In</a>
       <a href="signup.html" class="signup">Sign Up</a>
     </div>
-
   </header>
 
   <div class="badge">✨ ✈️ AI-Powered Travel Planning Revolution 🌍 ✨</div>
@@ -222,36 +259,42 @@
     <p class="section-subtext">
       Experience the future of travel planning with cutting-edge AI technology
     </p>
-    
+
     <div class="feature-grid">
       <div class="feature-card">
         <div class="feature-icon">🧠</div>
         <h3>AI-Powered Magic</h3>
-        <p>Our advanced AI creates personalized itineraries that perfectly match your travel dreams and preferences ✨</p>
+        <p>Our advanced AI creates personalized itineraries that perfectly match your travel dreams and preferences </p>
       </div>
 
       <div class="feature-card">
         <div class="feature-icon">📍</div>
         <h3>Interactive Maps</h3>
-        <p>Visualize your adventure with stunning interactive maps and optimized routes for seamless exploration 📍</p>
+        <p>Visualize your adventure with stunning interactive maps and optimized routes for seamless exploration </p>
       </div>
 
       <div class="feature-card">
         <div class="feature-icon">🕒</div>
         <h3>Journey Memory</h3>
-        <p>Keep all your adventures organized and easily revisit your favorite travel memories 💭</p>
+        <p>Keep all your adventures organized and easily revisit your favorite travel memories </p>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">💖</div>
+        <div class="feature-icon">🎨</div>
         <h3>Personal Touch</h3>
-        <p>Save your preferences and let our AI learn your style for even better recommendations 🎨</p>
+        <p>Save your preferences and let our AI learn your style for even better recommendations </p>
       </div>
-
     </div>
   </section>
 
   <script src="script.js"></script>
-  
+
+  <footer class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">🌍 Planora</div>
+    <p>© 2025 Planora. Making travel planning intelligent, simple, and personal.</p>
+  </div>
+</footer>
+
 </body>
 </html>
