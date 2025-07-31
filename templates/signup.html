@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Signup - Planora</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -234,80 +236,83 @@
 -->
 
   <script type="module">
-<<<<<<< HEAD
-  import { supabase } from '/supabase/supabaseClient.js';
-=======
-  import { supabase } from '../supabase/supabaseClient.js';
->>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
+    import { supabase } from "../supabase/supabaseClient.js";
 
-  window.toggleCard = function (card) {
-    card.classList.toggle("selected");
+    let selectedBudget = '';
+
+    window.selectCard = function (card, groupName) {
+      if (groupName === 'style') {
+        document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+
+        
+        const text = card.querySelector('p');
+        selectedBudget = text ? text.innerText.split('\n')[0].trim() : '';
+      }
+    };
+
+    window.toggleCard = function (card) {
+      card.classList.toggle("selected");
+    };
+
+    
+     window.submitSignup = async function () {
+  const name = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p')).map(el => el.innerText.trim());
+
+  if (!name || !email || !password) {
+    alert("Please fill all the fields.");
+    return;
   }
 
-  window.selectCard = function (card, groupName) {
-<<<<<<< HEAD
-    document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
-=======
-    document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
->>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
-    card.classList.add('selected');
+  if (!selectedBudget) {
+    alert("Please select your travel style.");
+    return;
   }
 
-  window.submitSignup = async function () {
-    const name = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  if (selectedInterests.length === 0) {
+    alert("Please select at least one interest.");
+    return;
+  }
 
-    if (!name || !email || !password) {
-      alert("Please fill all the fields.");
-      return;
-    }
-<<<<<<< HEAD
-   
-
-    const userId = crypto.randomUUID(); // Generate your own user ID
-
-=======
-
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  try {
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({ email, password });
 
     if (signUpError) {
-      alert(" Signup failed: " + signUpError.message);
+      alert("Signup failed: " + signUpError.message);
       return;
     }
 
-    const userId = signUpData.user.id;
+    const userId = authData.user.id;
 
-    
->>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
-    const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
-      .map(el => el.innerText.trim());
-
-    
-    const { error: insertError } = await supabase
-      .from('users')
-      .insert([
-        {
-          id: userId,
-          name,
-          email,
-          password, 
-          preferences: selectedInterests,
-          created_at: new Date().toISOString()
-          
-        }
-      ]);
+    const { error: insertError } = await supabase.from('users').insert([
+      {
+        id: userId,
+        name,
+        email,
+        password,
+        budget: selectedBudget,
+        preferences: selectedInterests,
+        created_at: new Date().toISOString(),
+      }
+    ]);
 
     if (insertError) {
-      alert("Failed to save user data: " + insertError.message);
-    } else {
-      alert(" Account created and user saved!");
+      alert("Failed to save preferences: " + insertError.message);
+      return;
     }
-  };
-</script>
+
+    alert("Account created and preferences saved!");
+  } catch (err) {
+    console.error(err);
+    alert("An unexpected error occurred.");
+  }
+};
+
+  </script>
+
 
 
 </body>
