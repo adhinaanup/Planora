@@ -234,14 +234,22 @@
 -->
 
   <script type="module">
+<<<<<<< HEAD
   import { supabase } from '/supabase/supabaseClient.js';
+=======
+  import { supabase } from '../supabase/supabaseClient.js';
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
 
   window.toggleCard = function (card) {
     card.classList.toggle("selected");
   }
 
   window.selectCard = function (card, groupName) {
+<<<<<<< HEAD
     document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
+=======
+    document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
     card.classList.add('selected');
   }
 
@@ -254,10 +262,27 @@
       alert("Please fill all the fields.");
       return;
     }
+<<<<<<< HEAD
    
 
     const userId = crypto.randomUUID(); // Generate your own user ID
 
+=======
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (signUpError) {
+      alert(" Signup failed: " + signUpError.message);
+      return;
+    }
+
+    const userId = signUpData.user.id;
+
+    
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
     const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
       .map(el => el.innerText.trim());
 
