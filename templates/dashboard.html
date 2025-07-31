@@ -5,16 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planora - Dashboard</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      display: flex;
-      background-color: #e6f2f2;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { display: flex; background-color: #e6f2f2; }
     .sidebar {
       width: 260px;
       background-color: #d7efef;
@@ -24,33 +16,16 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .sidebar-top {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      font-size: 20px;
-      color: #3e748b;
-    }
-    .logo img {
-      height: 40px;
-    }
-    .sidebar h3 {
-      font-size: 18px;
-      color: #333;
-    }
+    .sidebar-top { display: flex; flex-direction: column; gap: 25px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #3e748b; }
+    .logo img { height: 40px; }
+    .sidebar h3 { font-size: 18px; color: #333; }
     .sidebar p {
       color: #555;
       font-size: 16px;
       margin-left: 10px;
       text-decoration: none;
     }
-
     .menu-item {
       margin-top: 20px;
       color: #333;
@@ -58,12 +33,7 @@
       border-radius: 6px;
       transition: background-color 0.3s ease;
     }
-
-    .menu-item:hover {
-      background-color: #c3dfdf;
-      text-decoration: none;
-    }
-
+    .menu-item:hover { background-color: #c3dfdf; text-decoration: none; }
     .signout {
       color: #3e748b;
       font-size: 16px;
@@ -72,12 +42,7 @@
       align-items: center;
       gap: 6px;
     }
-    .main {
-      flex: 1;
-      padding: 40px;
-    }
-
-    /* PAGE STYLES */
+    .main { flex: 1; padding: 40px; }
     .create-itinerary, .journey-memory {
       background-color: #d3e9e9;
       padding: 40px;
@@ -85,26 +50,10 @@
       max-width: 90%;
       margin: 20px auto;
     }
-
-    .create-itinerary h2 {
-      margin-bottom: 20px;
-      color: #142d4c;
-    }
-
-    .form-group {
-      margin-bottom: 30px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 40px;
-      margin-bottom: 30px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
+    .create-itinerary h2 { margin-bottom: 20px; color: #142d4c; }
+    .form-group { margin-bottom: 30px; }
+    .form-row { display: flex; gap: 40px; margin-bottom: 30px; }
+    .form-row .form-group { flex: 1; }
     label {
       display: flex;
       align-items: center;
@@ -112,13 +61,8 @@
       color: #333;
       margin-bottom: 6px;
     }
-
-    label span {
-      margin-right: 8px;
-    }
-
-    input[type="text"],
-    input[type="date"] {
+    label span { margin-right: 8px; }
+    input[type="text"], input[type="date"] {
       width: 100%;
       padding: 10px;
       background-color: #bfd8d8;
@@ -126,11 +70,7 @@
       border-radius: 6px;
       color: #222;
     }
-
-    input[type="text"]::placeholder {
-      color: #666;
-    }
-
+    input[type="text"]::placeholder { color: #666; }
     .generate-btn {
       margin-top: 30px;
       background-color: #3e748b;
@@ -141,7 +81,6 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     .trip-card {
       background-color: #ffffff;
       padding: 15px;
@@ -149,20 +88,9 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
-    .trip-card h4 {
-      color: #2f5e6e;
-      margin-bottom: 5px;
-    }
-
-    .trip-card p {
-      color: #555;
-      font-size: 14px;
-    }
-
-    .hidden {
-      display: none;
-    }
+    .trip-card h4 { color: #2f5e6e; margin-bottom: 5px; }
+    .trip-card p { color: #555; font-size: 14px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -174,14 +102,14 @@
         PLANORA
       </div>
       <div>
-        <h3>Hi, <span id="username">Username!</span></h3>
+        <h3>Hi, <span id="username">Loading...</span></h3>
         <div class="menu-item">
           <h3>Your Budget</h3>
-          <p id="user-budget">₹25,000</p>
+          <p id="user-budget">Loading...</p>
         </div>
         <div class="menu-item">
           <h3>Your Interests</h3>
-          <p id="user-interests">Mountains, Beaches, Food</p>
+          <p id="user-interests">Loading...</p>
         </div>
         <div class="menu-item" onclick="showPage('itinerary')">
           <h3>Create Itinerary</h3>
@@ -191,7 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="signout">
+    <div class="signout" onclick="signOut()">
       <span>&#x21B6;</span> Sign Out
     </div>
   </div>
@@ -207,11 +135,11 @@
       <div class="form-row">
         <div class="form-group">
           <label><span>📅</span>From date</label>
-          <input type="date" placeholder="dd-mm-yyyy" />
+          <input type="date" />
         </div>
         <div class="form-group">
           <label><span>📅</span>To date</label>
-          <input type="date" placeholder="dd-mm-yyyy" />
+          <input type="date" />
         </div>
       </div>
       <button class="generate-btn">Generate My Itinerary</button>
@@ -233,82 +161,54 @@
     </div>
   </div>
 
-  <script>
-  function showPage(page) {
-    const itinerary = document.getElementById('create-itinerary-page');
-    const memory = document.getElementById('journey-memory-page');
+  <script type="module">
+   import { supabase } from '/supabase/supabaseClient.js';
 
-    if (page === 'itinerary') {
-      itinerary.classList.remove('hidden');
-      memory.classList.add('hidden');
-    } else if (page === 'memory') {
-      memory.classList.remove('hidden');
-      itinerary.classList.add('hidden');
-    }
-  }
+    
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("id");
 
-  document.querySelector('.signout').addEventListener('click', function() {
-    localStorage.clear();
-    window.location.href = 'index.html';
-  });
-
-  
-  document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
-  document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
-  document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
-</script>
-
-<script type="module">
-  import { supabase } from './supabaseclient.js';
-
-  
-  const urlParams = new URLSearchParams(window.location.search);
-  const userId = urlParams.get("id");
-
-  if (!userId) {
-    alert("Missing user ID. Please log in again.");
-    window.location.href = "index.html";
-  }
-
-  
-  async function loadUserData() {
-    const { data, error } = await supabase
-      .from("users")
-      .select("name, budget, preferences")
-      .eq("id", userId)
-      .single();
-
-    console.log("Fetched user data:", data);
-    console.log("Error (if any):", error);
-
-    if (error || !data) {
-      alert("Failed to load user data.");
-      return;
+    if (!userId) {
+      alert("User ID missing. Please log in again.");
+      window.location.href = "index.html";
     }
 
-   
-    document.getElementById("username").textContent = data.name + "!";
-    document.getElementById("user-budget").textContent = "₹" + data.budget;
+    async function loadUser() {
+      const { data, error } = await supabase
+        .from("users")
+        .select("name, budget, preferences")
+        .eq("id", userId)
+        .single();
 
-    const interests = Array.isArray(data.preferences)
-      ? data.preferences.join(", ")
-      : data.preferences;
+      if (error || !data) {
+        console.error("Error fetching user:", error);
+        alert("Failed to load user data.");
+        return;
+      }
 
-    document.getElementById("user-interests").textContent = interests;
-  }
+      document.getElementById("username").textContent = data.name;
+      document.getElementById("user-budget").textContent =  data.budget;
 
-  loadUserData();
+      const interests = Array.isArray(data.preferences)
+        ? data.preferences.join(", ")
+        : data.preferences;
 
+      document.getElementById("user-interests").textContent = interests;
+    }
 
-  window.showPage = function (page) {
-    document.getElementById("create-itinerary-page").classList.toggle("hidden", page !== "itinerary");
-    document.getElementById("journey-memory-page").classList.toggle("hidden", page !== "memory");
-  };
+    loadUser();
 
-  document.querySelector(".signout").addEventListener("click", () => {
-    window.location.href = "index.html";
-  });
-</script>
+    
+    window.showPage = function (page) {
+      document.getElementById("create-itinerary-page").classList.toggle("hidden", page !== "itinerary");
+      document.getElementById("journey-memory-page").classList.toggle("hidden", page !== "memory");
+    };
+
+    
+    window.signOut = function () {
+      window.location.href = "index.html";
+    };
+  </script>
 
 </body>
 </html>
