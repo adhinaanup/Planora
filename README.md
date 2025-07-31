@@ -4,7 +4,7 @@
 
 ## 📋 Features
 
-- **AI Itinerary Generation**: Generates smart itineraries using OpenAI based on user inputs.
+- **AI Itinerary Generation**: Generates smart itineraries using Google Gemini API based on user inputs.
 - **Interactive Maps**: Visualizes destinations and places of interest using Google Maps.
 - **Live Weather**: Displays up-to-date weather forecasts via OpenWeather API.
 - **User Authentication**: Sign up and log in securely using Supabase Auth.
@@ -12,13 +12,38 @@
 - **Edge Functions**: Use serverless logic for API integrations and itinerary processing.
 
 
-## 🛠️ Technologies
+## 🛠️ Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions)
-- **AI**: OpenAI API (ChatGPT)
-- **Maps**: Google Maps JavaScript API
-- **Weather**: OpenWeatherMap API
+| Layer        | Tech                                 |
+|--------------|--------------------------------------|
+| Frontend     | HTML, CSS, JavaScript                |
+| Backend      | Supabase Edge Functions (Deno)       |
+| AI Engine    | Google Gemini API                    |
+| Maps         | Google Maps JavaScript API           |
+| Weather      | OpenWeather API                      |
+| Auth/DB      | Supabase Auth + PostgreSQL           |
+| Hosting      | Supabase                             |
+
+---
+
+## 📦 External Dependencies 
+
+```text
+# Supabase JS SDK (Deno-compatible)
+supabase-js: https://esm.sh/@supabase/supabase-js
+
+# Google Gemini API
+google-generativeai: https://esm.sh/@google/generative-ai
+
+# Google Maps JavaScript API
+google-maps: https://developers.google.com/maps/documentation/javascript
+
+# OpenWeather API
+openweather: https://openweathermap.org/api
+
+# Deno .env loader
+deno-dotenv: https://deno.land/std@0.204.0/dotenv/mod.ts
+```
 
 ## ⚙️ Installation
 
