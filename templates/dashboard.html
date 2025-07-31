@@ -234,24 +234,81 @@
   </div>
 
   <script>
-    function showPage(page) {
-      const itinerary = document.getElementById('create-itinerary-page');
-      const memory = document.getElementById('journey-memory-page');
+  function showPage(page) {
+    const itinerary = document.getElementById('create-itinerary-page');
+    const memory = document.getElementById('journey-memory-page');
 
-      if (page === 'itinerary') {
-        itinerary.classList.remove('hidden');
-        memory.classList.add('hidden');
-      } else if (page === 'memory') {
-        memory.classList.remove('hidden');
-        itinerary.classList.add('hidden');
-      }
+    if (page === 'itinerary') {
+      itinerary.classList.remove('hidden');
+      memory.classList.add('hidden');
+    } else if (page === 'memory') {
+      memory.classList.remove('hidden');
+      itinerary.classList.add('hidden');
+    }
+  }
+
+  document.querySelector('.signout').addEventListener('click', function() {
+    localStorage.clear();
+    window.location.href = 'index.html';
+  });
+
+  
+  document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
+  document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
+  document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
+</script>
+
+<script type="module">
+  import { supabase } from './supabaseclient.js';
+
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get("id");
+
+  if (!userId) {
+    alert("Missing user ID. Please log in again.");
+    window.location.href = "index.html";
+  }
+
+  
+  async function loadUserData() {
+    const { data, error } = await supabase
+      .from("users")
+      .select("name, budget, preferences")
+      .eq("id", userId)
+      .single();
+
+    console.log("Fetched user data:", data);
+    console.log("Error (if any):", error);
+
+    if (error || !data) {
+      alert("Failed to load user data.");
+      return;
     }
 
-    // Populate data from storage (mock)
-    document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
-    document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
-    document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
-  </script>
+   
+    document.getElementById("username").textContent = data.name + "!";
+    document.getElementById("user-budget").textContent = "₹" + data.budget;
+
+    const interests = Array.isArray(data.preferences)
+      ? data.preferences.join(", ")
+      : data.preferences;
+
+    document.getElementById("user-interests").textContent = interests;
+  }
+
+  loadUserData();
+
+
+  window.showPage = function (page) {
+    document.getElementById("create-itinerary-page").classList.toggle("hidden", page !== "itinerary");
+    document.getElementById("journey-memory-page").classList.toggle("hidden", page !== "memory");
+  };
+
+  document.querySelector(".signout").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+</script>
 
 </body>
 </html>
