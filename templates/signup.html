@@ -187,28 +187,28 @@
       <div class="options-grid" id="travel-styles">
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🎒</span>
-          <p>Budget<br><small>₹500-1000/day</small></p>
+          <p>Budget<br><small>$50-100/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
-          <span>✈️</span>
-          <p>Comfort<br><small>₹2000-5000/day</small></p>
+          <span>✈</span>
+          <p>Comfort<br><small>$100-200/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🥂</span>
-          <p>Luxury<br><small>₹5000/day</small></p>
+          <p>Luxury<br><small>$200+/day</small></p>
         </div>
       </div>
 
-      <div class="section-title">❤️ What do you enjoy?</div>
+      <div class="section-title">❤ What do you enjoy?</div>
       <div class="options-grid" id="interests">
-        <div class="option-card" onclick="toggleCard(this)"><span>🏛️</span><p>Culture</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>🍽️</span><p>Food</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🏛</span><p>Culture</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🍽</span><p>Food</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>📜</span><p>History</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🌲</span><p>Nature</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>⛰️</span><p>Adventure</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>⛰</span><p>Adventure</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🎨</span><p>Art</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🎵</span><p>Music</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>🛍️</span><p>Shopping</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🛍</span><p>Shopping</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🌙</span><p>Nightlife</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>📷</span><p>Photography</p></div>
       </div>
@@ -223,7 +223,7 @@
     }
 
     function selectCard(card, groupName) {
-      document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll(#travel-styles .option-card).forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
     }
 
@@ -234,14 +234,22 @@
 -->
 
   <script type="module">
+<<<<<<< HEAD
+  import { supabase } from '/supabase/supabaseClient.js';
+=======
   import { supabase } from '../supabase/supabaseClient.js';
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
 
   window.toggleCard = function (card) {
     card.classList.toggle("selected");
   }
 
   window.selectCard = function (card, groupName) {
+<<<<<<< HEAD
+    document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
+=======
     document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
     card.classList.add('selected');
   }
 
@@ -254,6 +262,12 @@
       alert("Please fill all the fields.");
       return;
     }
+<<<<<<< HEAD
+   
+
+    const userId = crypto.randomUUID(); // Generate your own user ID
+
+=======
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
@@ -268,6 +282,7 @@
     const userId = signUpData.user.id;
 
     
+>>>>>>> 0d0f3284172cfa918f238428b5c0d113b4378456
     const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
       .map(el => el.innerText.trim());
 
