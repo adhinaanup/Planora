@@ -187,28 +187,28 @@
       <div class="options-grid" id="travel-styles">
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🎒</span>
-          <p>Budget<br><small>₹500-1000/day</small></p>
+          <p>Budget<br><small>$50-100/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
-          <span>✈️</span>
-          <p>Comfort<br><small>₹2000-5000/day</small></p>
+          <span>✈</span>
+          <p>Comfort<br><small>$100-200/day</small></p>
         </div>
         <div class="option-card" onclick="selectCard(this, 'style')">
           <span>🥂</span>
-          <p>Luxury<br><small>₹5000/day</small></p>
+          <p>Luxury<br><small>$200+/day</small></p>
         </div>
       </div>
 
-      <div class="section-title">❤️ What do you enjoy?</div>
+      <div class="section-title">❤ What do you enjoy?</div>
       <div class="options-grid" id="interests">
-        <div class="option-card" onclick="toggleCard(this)"><span>🏛️</span><p>Culture</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>🍽️</span><p>Food</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🏛</span><p>Culture</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🍽</span><p>Food</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>📜</span><p>History</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🌲</span><p>Nature</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>⛰️</span><p>Adventure</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>⛰</span><p>Adventure</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🎨</span><p>Art</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🎵</span><p>Music</p></div>
-        <div class="option-card" onclick="toggleCard(this)"><span>🛍️</span><p>Shopping</p></div>
+        <div class="option-card" onclick="toggleCard(this)"><span>🛍</span><p>Shopping</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>🌙</span><p>Nightlife</p></div>
         <div class="option-card" onclick="toggleCard(this)"><span>📷</span><p>Photography</p></div>
       </div>
@@ -216,14 +216,14 @@
       <button class="submit-btn" onclick="submitSignup()">🚀Sign up</button>
     </div>
   </div>
-
+<!--
   <script>
     function toggleCard(card) {
       card.classList.toggle("selected");
     }
 
     function selectCard(card, groupName) {
-      document.querySelectorAll(`#travel-styles .option-card`).forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll(#travel-styles .option-card).forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
     }
 
@@ -231,5 +231,58 @@
       alert("Account created and preferences saved! (Backend not connected yet)");
     }
   </script>
+-->
+
+  <script type="module">
+  import { supabase } from '/supabase/supabaseClient.js';
+
+  window.toggleCard = function (card) {
+    card.classList.toggle("selected");
+  }
+
+  window.selectCard = function (card, groupName) {
+    document.querySelectorAll('#travel-styles .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+
+  window.submitSignup = async function () {
+    const name = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!name || !email || !password) {
+      alert("Please fill all the fields.");
+      return;
+    }
+   
+
+    const userId = crypto.randomUUID(); // Generate your own user ID
+
+    const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
+      .map(el => el.innerText.trim());
+
+    
+    const { error: insertError } = await supabase
+      .from('users')
+      .insert([
+        {
+          id: userId,
+          name,
+          email,
+          password, 
+          preferences: selectedInterests,
+          created_at: new Date().toISOString()
+        }
+      ]);
+
+    if (insertError) {
+      alert("Failed to save user data: " + insertError.message);
+    } else {
+      alert(" Account created and user saved!");
+    }
+  };
+</script>
+
+
 </body>
 </html>
