@@ -158,6 +158,7 @@
     .trip-card p {
       color: #555;
       font-size: 14px;
+      white-space: pre-line;
     }
 
     .hidden {
@@ -197,24 +198,30 @@
   </div>
 
   <div class="main">
-    <!-- Create Itinerary Page (Default) -->
+    <!-- Create Itinerary Page -->
     <div id="create-itinerary-page" class="create-itinerary">
       <h2>Plan Your Dream Trip!</h2>
       <div class="form-group">
         <label><span>📍</span>Where to?</label>
-        <input type="text" placeholder="Enter destination" />
+        <input type="text" id="destination" placeholder="Enter destination" />
       </div>
       <div class="form-row">
         <div class="form-group">
           <label><span>📅</span>From date</label>
-          <input type="date" placeholder="dd-mm-yyyy" />
+          <input type="date" id="start-date" placeholder="dd-mm-yyyy" />
         </div>
         <div class="form-group">
           <label><span>📅</span>To date</label>
-          <input type="date" placeholder="dd-mm-yyyy" />
+          <input type="date" id="end-date" placeholder="dd-mm-yyyy" />
         </div>
       </div>
       <button class="generate-btn">Generate My Itinerary</button>
+
+      <!-- Generated Itinerary Output -->
+      <div id="generated-itinerary" class="trip-card hidden">
+        <h4>Your AI-Powered Itinerary:</h4>
+        <p id="itinerary-text"></p>
+      </div>
     </div>
 
     <!-- Journey Memory Page -->
@@ -247,10 +254,54 @@
       }
     }
 
-    // Populate data from storage (mock)
+    // Load user data from localStorage (mock)
     document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
     document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
     document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
+
+    // Handle Generate Itinerary click
+    document.querySelector('.generate-btn').addEventListener('click', async () => {
+      const destination = document.getElementById('destination').value;
+      const startDate = document.getElementById('start-date').value;
+      const endDate = document.getElementById('end-date').value;
+      const interests = (localStorage.getItem("interests") || "culture, food").split(',').map(i => i.trim());
+
+      if (!destination || !startDate || !endDate) {
+        alert("Please fill in all the fields.");
+        return;
+      }
+
+      try {
+        const res = await fetch("https://sqertmmpqriccnzheami.functions.supabase.co/generate-itinerary", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            city: destination,
+            start_date: startDate,
+            end_date: endDate,
+            interests: interests
+          })
+        });
+
+        const data = await res.json();
+        const itineraryDiv = document.getElementById("generated-itinerary");
+        const itineraryText = document.getElementById("itinerary-text");
+
+        if (data.itinerary) {
+          itineraryText.innerText = data.itinerary;
+          itineraryDiv.classList.remove("hidden");
+        } else {
+          itineraryText.innerText = "No itinerary generated.";
+          itineraryDiv.classList.remove("hidden");
+        }
+
+      } catch (err) {
+        alert("Error generating itinerary. Please try again.");
+        console.error(err);
+      }
+    });
   </script>
 
 </body>
