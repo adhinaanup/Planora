@@ -5,16 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planora - Dashboard</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      display: flex;
-      background-color: #e6f2f2;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { display: flex; background-color: #e6f2f2; }
     .sidebar {
       width: 260px;
       background-color: #d7efef;
@@ -24,26 +16,10 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .sidebar-top {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      font-size: 20px;
-      color: #3e748b;
-    }
-    .logo img {
-      height: 40px;
-    }
-    .sidebar h3 {
-      font-size: 18px;
-      color: #333;
-    }
+    .sidebar-top { display: flex; flex-direction: column; gap: 25px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #3e748b; }
+    .logo img { height: 40px; }
+    .sidebar h3 { font-size: 18px; color: #333; }
     .sidebar p {
       color: #555;
       font-size: 16px;
@@ -58,12 +34,7 @@
       border-radius: 6px;
       transition: background-color 0.3s ease;
     }
-
-    .menu-item:hover {
-      background-color: #c3dfdf;
-      text-decoration: none;
-    }
-
+    .menu-item:hover { background-color: #c3dfdf; text-decoration: none; }
     .signout {
       color: #3e748b;
       font-size: 16px;
@@ -72,12 +43,7 @@
       align-items: center;
       gap: 6px;
     }
-    .main {
-      flex: 1;
-      padding: 40px;
-    }
-
-    /* PAGE STYLES */
+    .main { flex: 1; padding: 40px; }
     .create-itinerary, .journey-memory {
       background-color: #d3e9e9;
       padding: 40px;
@@ -85,26 +51,10 @@
       max-width: 90%;
       margin: 20px auto;
     }
-
-    .create-itinerary h2 {
-      margin-bottom: 20px;
-      color: #142d4c;
-    }
-
-    .form-group {
-      margin-bottom: 30px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 40px;
-      margin-bottom: 30px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
+    .create-itinerary h2 { margin-bottom: 20px; color: #142d4c; }
+    .form-group { margin-bottom: 30px; }
+    .form-row { display: flex; gap: 40px; margin-bottom: 30px; }
+    .form-row .form-group { flex: 1; }
     label {
       display: flex;
       align-items: center;
@@ -112,13 +62,8 @@
       color: #333;
       margin-bottom: 6px;
     }
-
-    label span {
-      margin-right: 8px;
-    }
-
-    input[type="text"],
-    input[type="date"] {
+    label span { margin-right: 8px; }
+    input[type="text"], input[type="date"] {
       width: 100%;
       padding: 10px;
       background-color: #bfd8d8;
@@ -126,11 +71,7 @@
       border-radius: 6px;
       color: #222;
     }
-
-    input[type="text"]::placeholder {
-      color: #666;
-    }
-
+    input[type="text"]::placeholder { color: #666; }
     .generate-btn {
       margin-top: 30px;
       background-color: #3e748b;
@@ -141,7 +82,6 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     .trip-card {
       background-color: #ffffff;
       padding: 15px;
@@ -149,6 +89,9 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
+    .trip-card h4 { color: #2f5e6e; margin-bottom: 5px; }
+    .trip-card p { color: #555; font-size: 14px; }
+    .hidden { display: none; }
 
     .trip-card h4 {
       color: #2f5e6e;
@@ -175,14 +118,14 @@
         PLANORA
       </div>
       <div>
-        <h3>Hi, <span id="username">Username!</span></h3>
+        <h3>Hi, <span id="username">Loading...</span></h3>
         <div class="menu-item">
           <h3>Your Budget</h3>
-          <p id="user-budget">₹25,000</p>
+          <p id="user-budget">Loading...</p>
         </div>
         <div class="menu-item">
           <h3>Your Interests</h3>
-          <p id="user-interests">Mountains, Beaches, Food</p>
+          <p id="user-interests">Loading...</p>
         </div>
         <div class="menu-item" onclick="showPage('itinerary')">
           <h3>Create Itinerary</h3>
@@ -192,7 +135,7 @@
         </div>
       </div>
     </div>
-    <div class="signout">
+    <div class="signout" onclick="signOut()">
       <span>&#x21B6;</span> Sign Out
     </div>
   </div>
@@ -204,14 +147,17 @@
       <div class="form-group">
         <label><span>📍</span>Where to?</label>
         <input type="text" id="destination" placeholder="Enter destination" />
+        <input type="text" id="destination" placeholder="Enter destination" />
       </div>
       <div class="form-row">
         <div class="form-group">
           <label><span>📅</span>From date</label>
+          <input type="date" id="from-date" />
           <input type="date" id="start-date" placeholder="dd-mm-yyyy" />
         </div>
         <div class="form-group">
           <label><span>📅</span>To date</label>
+          <input type="date" id="to-date" />
           <input type="date" id="end-date" placeholder="dd-mm-yyyy" />
         </div>
       </div>
@@ -303,6 +249,7 @@
       }
     });
   </script>
+
 
 </body>
 </html>
