@@ -14,7 +14,7 @@
 
     body {
       margin: 0;
-      background: linear-gradient(to top, #e6f7f5, #b5eae4);
+      background: linear-gradient(to top, #e6f7f5, #e6f2f2);
 
       padding: 40px 0;
     }
@@ -123,7 +123,7 @@
       display: block;
       width: 100%;
       padding: 14px;
-      background: #149d9f;
+      background: #3e748b; /* from dashboard.html */
       color: white;
       font-size: 16px;
       border: none;
@@ -134,8 +134,9 @@
     }
 
     .submit-btn:hover {
-      background: #11656d;
+      background: #325f72; /* darker hover tone */
     }
+
     .signin-text {
         margin-top: 20px;
         font-size: 14px;
@@ -218,6 +219,7 @@
       <button class="submit-btn" onclick="submitSignup()">🚀Sign up</button>
     </div>
   </div>
+ <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 
  <script type="module">
   import { supabase } from "/supabase/supabaseClient.js";
@@ -242,6 +244,9 @@
     const name = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
+    const salt = dcodeIO.bcrypt.genSaltSync(10); 
+    const hashedPassword = dcodeIO.bcrypt.hashSync(password, salt);
+
     const selectedInterests = Array.from(document.querySelectorAll('#interests .selected p'))
       .map(el => el.innerText.trim());
 
@@ -269,7 +274,7 @@
           id: userId,
           name,
           email,
-          password, 
+          password:hashedPassword, 
           preferences: selectedInterests,
           budget: selectedBudget,
           created_at: new Date().toISOString()
