@@ -1,6 +1,6 @@
 # 🌍 Planora
 
-**Planora** is an AI-powered travel planning application that creates personalized itineraries based on user preferences such as destination, duration, interests, and budget. It integrates OpenAI for intelligent suggestions, Google Maps for location visualization, and OpenWeather for live weather updates. With Supabase handling authentication and database management, Planora provides a seamless, interactive, and personalized travel planning experience.
+**Planora** is an AI-powered travel planning application that creates personalized itineraries based on user preferences such as destination, duration, interests, and budget. It integrates Google Gemini for intelligent suggestions, Google Maps for location visualization, and OpenWeather for live weather updates. With Supabase handling authentication and database management, Planora provides a seamless, interactive, and personalized travel planning experience.
 
 ## 📋 Features
 
