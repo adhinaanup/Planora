@@ -1,57 +1,84 @@
-// supabase/functions/generate-itinerary/index.ts
 import { serve } from "https://deno.land/std/http/server.ts";
+import { GoogleGenAI } from "npm:@google/genai";
 
-import { GoogleGenerativeAI } from "npm:@google/generative-ai";
+console.log("⚡ Supabase Edge Function started");
 
-// Start HTTP server
+const apiKey = Deno.env.get("GEMINI_API_KEY");
+
+if (!apiKey) {
+  console.error("❌ GEMINI_API_KEY is not defined in environment");
+}
+
+const genAI = new GoogleGenAI({ apiKey });
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*", // Update to specific origin in production
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "application/json",
+  };
+}
+
 serve(async (req: Request): Promise<Response> => {
-  try {
-    // Ensure it's a POST request
-    if (req.method !== "POST") {
-      return new Response(JSON.stringify({ error: "Only POST method allowed" }), {
-        status: 405,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+  console.log(`📥 Request: ${req.method} ${req.url}`);
 
-    // Parse JSON body
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders(),
+    });
+  }
+
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Only POST method allowed" }), {
+      status: 405,
+      headers: corsHeaders(),
+    });
+  }
+
+  try {
     const body = await req.json();
+    console.log("✅ JSON body received:", body);
 
     const { city, start_date, end_date, interests } = body;
 
-    if (!city || !start_date || !end_date || !interests) {
-      return new Response(JSON.stringify({ error: "Missing required fields" }), {
+    if (!city || !start_date || !end_date || !interests || !Array.isArray(interests)) {
+      return new Response(JSON.stringify({ error: "Missing or invalid fields" }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: corsHeaders(),
       });
     }
 
-    // Create prompt for Gemini
-    const prompt = `Create a detailed travel itinerary for a trip to ${city} from ${start_date} to ${end_date}. The user is interested in ${interests.join(
-      ", "
-    )}. Include things to do each day, best places to visit, and local tips.`;
+    const prompt = `Create a detailed travel itinerary for a trip to ${city} from ${start_date} to ${end_date}. The user is interested in ${interests.join(", ")}.`;
 
-    // Use Gemini API
-    const genAI = new GoogleGenerativeAI(Deno.env.get("GEMINI_API_KEY")!);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    console.log("🤖 Sending prompt to Gemini...");
 
-    return new Response(JSON.stringify({ itinerary: text }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+    const result = await genAI.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }],
+        },
+      ],
     });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: (err as Error).message }), {
+
+    const itinerary = result.candidates?.[0]?.content?.parts?.[0]?.text ?? "No itinerary generated.";
+
+    console.log("✅ AI response received");
+
+    return new Response(JSON.stringify({ itinerary }), {
+      status: 200,
+      headers: corsHeaders(),
+    });
+
+  } catch (error) {
+    console.error("🔥 Internal error:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: corsHeaders(),
     });
   }
 });

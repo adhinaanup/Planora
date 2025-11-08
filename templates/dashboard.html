@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +27,6 @@
       margin-left: 10px;
       text-decoration: none;
     }
-
     .menu-item {
       margin-top: 20px;
       color: #333;
@@ -90,23 +90,12 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .trip-card h4 { color: #2f5e6e; margin-bottom: 5px; }
-    .trip-card p { color: #555; font-size: 14px; }
-    .hidden { display: none; }
-
-    .trip-card h4 {
-      color: #2f5e6e;
-      margin-bottom: 5px;
-    }
-
     .trip-card p {
       color: #555;
       font-size: 14px;
       white-space: pre-line;
     }
-
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -141,36 +130,32 @@
   </div>
 
   <div class="main">
-    <!-- Create Itinerary Page -->
+  
     <div id="create-itinerary-page" class="create-itinerary">
       <h2>Plan Your Dream Trip!</h2>
       <div class="form-group">
         <label><span>📍</span>Where to?</label>
-        <input type="text" id="destination" placeholder="Enter destination" />
         <input type="text" id="destination" placeholder="Enter destination" />
       </div>
       <div class="form-row">
         <div class="form-group">
           <label><span>📅</span>From date</label>
           <input type="date" id="from-date" />
-          <input type="date" id="start-date" placeholder="dd-mm-yyyy" />
         </div>
         <div class="form-group">
           <label><span>📅</span>To date</label>
           <input type="date" id="to-date" />
-          <input type="date" id="end-date" placeholder="dd-mm-yyyy" />
         </div>
       </div>
       <button class="generate-btn">Generate My Itinerary</button>
 
-      <!-- Generated Itinerary Output -->
       <div id="generated-itinerary" class="trip-card hidden">
         <h4>Your AI-Powered Itinerary:</h4>
         <p id="itinerary-text"></p>
       </div>
     </div>
 
-    <!-- Journey Memory Page -->
+   
     <div id="journey-memory-page" class="journey-memory hidden">
       <h2>Your Journey Memory</h2>
       <div class="trip-card">
@@ -186,70 +171,108 @@
     </div>
   </div>
 
-  <script>
-    function showPage(page) {
-      const itinerary = document.getElementById('create-itinerary-page');
-      const memory = document.getElementById('journey-memory-page');
+  <script type="module">
+    import { supabase } from '/supabase/supabaseClient.js';
 
-      if (page === 'itinerary') {
-        itinerary.classList.remove('hidden');
-        memory.classList.add('hidden');
-      } else if (page === 'memory') {
-        memory.classList.remove('hidden');
-        itinerary.classList.add('hidden');
-      }
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("id");
+
+    if (!userId) {
+      alert("User ID missing. Please log in again.");
+      window.location.href = "index.html";
     }
 
-    // Load user data from localStorage (mock)
-    document.getElementById("username").textContent = localStorage.getItem("username") || "Username!";
-    document.getElementById("user-budget").textContent = localStorage.getItem("budget") || "₹25,000";
-    document.getElementById("user-interests").textContent = localStorage.getItem("interests") || "Mountains, Beaches, Food";
+    async function loadUser() {
+      const { data, error } = await supabase
+        .from("users")
+        .select("name, budget, preferences")
+        .eq("id", userId)
+        .single();
 
-    // Handle Generate Itinerary click
-    document.querySelector('.generate-btn').addEventListener('click', async () => {
-      const destination = document.getElementById('destination').value;
-      const startDate = document.getElementById('start-date').value;
-      const endDate = document.getElementById('end-date').value;
-      const interests = (localStorage.getItem("interests") || "culture, food").split(',').map(i => i.trim());
-
-      if (!destination || !startDate || !endDate) {
-        alert("Please fill in all the fields.");
+      if (error || !data) {
+        console.error("Error fetching user:", error);
+        alert("Failed to load user data.");
         return;
       }
 
+      document.getElementById("username").textContent = data.name;
+      document.getElementById("user-budget").textContent = data.budget;
+
+      const interests = Array.isArray(data.preferences)
+        ? data.preferences
+        : (data.preferences || "").split(",").map(i => i.trim());
+
+      document.getElementById("user-interests").textContent = interests.join(", ");
+      return interests;
+    }
+
+    const interests = await loadUser();
+
+    document.querySelector(".generate-btn").addEventListener("click", async () => {
+      const destination = document.getElementById("destination").value.trim();
+      const fromDate = document.getElementById("from-date").value;
+      const toDate = document.getElementById("to-date").value;
+
+      if (!destination || !fromDate || !toDate) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Save trip to Supabase
+      const { error: insertError } = await supabase.from("trip_requests").insert([
+        {
+          user_id: userId,
+          destination: destination,
+          From_date: fromDate,
+          To_date: toDate
+        }
+      ]);
+
+      if (insertError) {
+        alert("Failed to save trip: " + insertError.message);
+        return;
+      }
+
+      // Fetch itinerary from edge function
       try {
-        const res = await fetch("https://sqertmmpqriccnzheami.functions.supabase.co/generate-itinerary", {
+        const res = await fetch("https://ijhpwkfhbmmrmemdyjrh.functions.supabase.co/generate-itinerary", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             city: destination,
-            start_date: startDate,
-            end_date: endDate,
-            interests: interests
+            start_date: fromDate,
+            end_date: toDate,
+            interests: interests || []
           })
         });
 
         const data = await res.json();
-        const itineraryDiv = document.getElementById("generated-itinerary");
         const itineraryText = document.getElementById("itinerary-text");
+        const itineraryDiv = document.getElementById("generated-itinerary");
 
-        if (data.itinerary) {
-          itineraryText.innerText = data.itinerary;
-          itineraryDiv.classList.remove("hidden");
-        } else {
-          itineraryText.innerText = "No itinerary generated.";
-          itineraryDiv.classList.remove("hidden");
-        }
+        itineraryText.textContent = data.itinerary || "No itinerary generated.";
+        itineraryDiv.classList.remove("hidden");
+
+        // Clear form
+        document.getElementById("destination").value = "";
+        document.getElementById("from-date").value = "";
+        document.getElementById("to-date").value = "";
 
       } catch (err) {
         alert("Error generating itinerary. Please try again.");
         console.error(err);
       }
     });
-  </script>
 
+    window.showPage = function (page) {
+      document.getElementById("create-itinerary-page").classList.toggle("hidden", page !== "itinerary");
+      document.getElementById("journey-memory-page").classList.toggle("hidden", page !== "memory");
+    };
+
+    window.signOut = function () {
+      window.location.href = "index.html";
+    };
+  </script>
 
 </body>
 </html>

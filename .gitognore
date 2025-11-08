@@ -1,0 +1,17 @@
+# Ignore node modules
+node_modules/
+
+# Ignore environment secrets
+.env
+
+# Ignore build output
+dist/
+build/
+
+# Supabase temp and output
+supabase/.temp/
+supabase/.output/
+
+# System files
+.DS_Store
+Thumbs.db
