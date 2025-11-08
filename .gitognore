@@ -3,6 +3,9 @@ node_modules/
 
 # Ignore environment secrets
 .env
+.env.local
+*.env
+
 
 # Ignore build output
 dist/
