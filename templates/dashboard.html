@@ -6,8 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planora - Dashboard</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { display: flex; background-color: #e6f2f2; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', sans-serif; 
+    }
+
+    body { 
+      display: flex; 
+      background-color: #e6f2f2; 
+    }
+
     .sidebar {
       width: 260px;
       background-color: #d7efef;
@@ -17,10 +27,26 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .sidebar-top { display: flex; flex-direction: column; gap: 25px; }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #3e748b; }
-    .logo img { height: 40px; }
-    .sidebar h3 { font-size: 18px; color: #333; }
+    .sidebar-top { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 25px; 
+    }
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      font-weight: bold; 
+      font-size: 20px; 
+      color: #3e748b; 
+    }
+    .logo img { 
+      height: 40px;
+    }
+    .sidebar h3 { 
+      font-size: 18px; 
+      color: #333; 
+    }
     .sidebar p {
       color: #555;
       font-size: 16px;
@@ -34,7 +60,10 @@
       border-radius: 6px;
       transition: background-color 0.3s ease;
     }
-    .menu-item:hover { background-color: #c3dfdf; text-decoration: none; }
+    .menu-item:hover { 
+      background-color: #c3dfdf; 
+      text-decoration: none; 
+    }
     .signout {
       color: #3e748b;
       font-size: 16px;
@@ -43,7 +72,10 @@
       align-items: center;
       gap: 6px;
     }
-    .main { flex: 1; padding: 40px; }
+    .main { 
+      flex: 1; 
+      padding: 40px; 
+    }
     .create-itinerary, .journey-memory {
       background-color: #d3e9e9;
       padding: 40px;
@@ -51,10 +83,21 @@
       max-width: 90%;
       margin: 20px auto;
     }
-    .create-itinerary h2 { margin-bottom: 20px; color: #142d4c; }
-    .form-group { margin-bottom: 30px; }
-    .form-row { display: flex; gap: 40px; margin-bottom: 30px; }
-    .form-row .form-group { flex: 1; }
+    .create-itinerary h2 { 
+      margin-bottom: 20px; 
+      color: #142d4c; 
+    }
+    .form-group { 
+      margin-bottom: 30px; 
+    }
+    .form-row { 
+      display: flex; 
+      gap: 40px; 
+      margin-bottom: 30px; 
+    }
+    .form-row .form-group { 
+      flex: 1; 
+    }
     label {
       display: flex;
       align-items: center;
@@ -62,7 +105,9 @@
       color: #333;
       margin-bottom: 6px;
     }
-    label span { margin-right: 8px; }
+    label span { 
+      margin-right: 8px; 
+    }
     input[type="text"], input[type="date"] {
       width: 100%;
       padding: 10px;
@@ -71,7 +116,9 @@
       border-radius: 6px;
       color: #222;
     }
-    input[type="text"]::placeholder { color: #666; }
+    input[type="text"]::placeholder { 
+      color: #666; 
+    }
     .generate-btn {
       margin-top: 30px;
       background-color: #3e748b;
@@ -89,15 +136,20 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .trip-card h4 { color: #2f5e6e; margin-bottom: 5px; }
-    .trip-card p {
-      color: #555;
-      font-size: 14px;
-      white-space: pre-line;
+    .trip-card h4 { 
+      color: #2f5e6e; 
+      margin-bottom: 5px; 
     }
-    .hidden { display: none; }
+    .trip-card p { 
+      color: #555; 
+      font-size: 14px; 
+    }
+    .hidden { 
+      display: none; 
+    }
   </style>
 </head>
+
 <body>
 
   <div class="sidebar">
@@ -155,7 +207,7 @@
       </div>
     </div>
 
-   
+    <!-- Journey Memory Page -->
     <div id="journey-memory-page" class="journey-memory hidden">
       <h2>Your Journey Memory</h2>
       <div class="trip-card">
