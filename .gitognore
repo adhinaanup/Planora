@@ -5,6 +5,9 @@ node_modules/
 .env
 .env.local
 *.env
+# Ignore all .env files anywhere
+*.env
+**/.env
 
 
 # Ignore build output
